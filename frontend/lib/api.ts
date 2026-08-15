@@ -1,4 +1,4 @@
-import type { Candidate, Company, CompanyFilters, CompanyMapRecord, PagedResponse } from "@/types";
+import type { Candidate, Company, CompanyFilters, CompanyMapRecord, GeneratedEmail, PagedResponse } from "@/types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080";
 
@@ -40,3 +40,9 @@ export const uploadCv = (file: File) => {
   body.append("file", file);
   return request<Candidate>("/api/candidate/cv", { method: "POST", body });
 };
+
+export const generateEmail = (companyId: string) => request<GeneratedEmail>("/api/email/generate", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ companyId }),
+});

@@ -30,3 +30,8 @@ export interface Candidate {
   cvUploaded: boolean;
   updatedAt: string;
 }
+
+export interface GeneratedEmail {
+  subject: string;
+  body: string;
+}
