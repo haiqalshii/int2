@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getCompanies, getMapCompanies } from "@/lib/api";
 import type { CompanyFilters, CompanyMapRecord, PagedResponse, Company } from "@/types";
@@ -38,7 +39,7 @@ export function DiscoveryPage() {
   const clearFilters = () => { setFilters(EMPTY_FILTERS); setPage(0); };
 
   return <main className="min-h-screen bg-[radial-gradient(circle_at_top_right,rgba(34,211,238,0.08),transparent_28rem)] px-4 py-6 sm:px-6 lg:px-8">
-    <header className="mx-auto mb-6 flex max-w-[1600px] items-center justify-between"><div><p className="text-xl font-black tracking-tight text-white">INT<span className="text-cyan-400">²</span></p><p className="text-xs text-slate-500">Intern Intelligence</p></div><div className="rounded-full border border-slate-800 bg-slate-900/70 px-3 py-1.5 text-xs text-slate-400">Malaysia · Cybersecurity</div></header>
+    <header className="mx-auto mb-6 flex max-w-[1600px] items-center justify-between"><div><p className="text-xl font-black tracking-tight text-white">INT<span className="text-cyan-400">²</span></p><p className="text-xs text-slate-500">Intern Intelligence</p></div><div className="flex items-center gap-2"><div className="hidden rounded-full border border-slate-800 bg-slate-900/70 px-3 py-1.5 text-xs text-slate-400 sm:block">Malaysia · Cybersecurity</div><Link href="/settings" className="rounded-full border border-slate-700 bg-slate-900 px-3 py-1.5 text-xs font-semibold text-slate-200 hover:border-cyan-400/50">CV settings</Link></div></header>
     <div className="mx-auto grid max-w-[1600px] gap-5 lg:grid-cols-[380px_minmax(0,1fr)]">
       <aside className="space-y-4"><div><h1 className="text-2xl font-bold tracking-tight text-white">Find your next opportunity.</h1><p className="mt-1 text-sm leading-6 text-slate-400">Explore licensed cybersecurity providers and discover where your skills fit.</p></div><SearchBar value={filters.search} onChange={(value) => changeFilter("search", value)} /><FilterPanel filters={filters} onChange={changeFilter} onClear={clearFilters} />
         <section><div className="mb-3 flex items-end justify-between"><div><p className="text-xs uppercase tracking-wider text-slate-500">Companies</p><p className="mt-0.5 text-sm font-semibold text-slate-200">{result?.totalElements ?? 0} results</p></div>{result && result.totalPages > 1 && <p className="text-xs text-slate-500">Page {result.page + 1} of {result.totalPages}</p>}</div>
@@ -50,4 +51,3 @@ export function DiscoveryPage() {
     </div>
   </main>;
 }
-

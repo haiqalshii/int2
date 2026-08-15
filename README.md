@@ -38,6 +38,8 @@ INT² is a private, single-user cybersecurity company discovery and cold-outreac
 
 The backend connects to Supabase PostgreSQL and applies Flyway migrations at startup. Set the three `SPRING_DATASOURCE_*` values in `.env` before starting it. To add development-only sample records, run `backend/scripts/dev-seed.sql` against a development Supabase database; never run it in production.
 
+Create a private Supabase Storage bucket named `candidate-files` (or set `SUPABASE_CANDIDATE_BUCKET`). CV uploads are stored at `candidate/cv.pdf`; the service key is used only by the backend and must never be exposed through a `NEXT_PUBLIC_*` variable.
+
 ## Whole-stack Docker run
 
 ```powershell
@@ -52,3 +54,5 @@ No secrets should be committed. The example files contain placeholders only.
 - `GET /api/companies/{id}` — full company details
 - `GET /api/companies/map` — lightweight map records with the same filters
 - `PATCH /api/companies/{id}/contacted` — body: `{ "contacted": true }`
+- `GET /api/candidate` — safe candidate metadata; extracted CV text is never returned
+- `POST /api/candidate/cv` — multipart PDF upload (`file`), maximum 10 MB

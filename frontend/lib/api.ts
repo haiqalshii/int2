@@ -1,4 +1,4 @@
-import type { Company, CompanyFilters, CompanyMapRecord, PagedResponse } from "@/types";
+import type { Candidate, Company, CompanyFilters, CompanyMapRecord, PagedResponse } from "@/types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080";
 
@@ -32,3 +32,11 @@ export const updateContacted = (id: string, contacted: boolean) => request<Compa
 });
 
 export const getHealth = () => request<{ status: string }>("/api/health");
+
+export const getCandidate = (signal?: AbortSignal) => request<Candidate>("/api/candidate", { signal });
+
+export const uploadCv = (file: File) => {
+  const body = new FormData();
+  body.append("file", file);
+  return request<Candidate>("/api/candidate/cv", { method: "POST", body });
+};

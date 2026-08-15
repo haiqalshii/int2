@@ -34,4 +34,3 @@ public class CandidateProfile {
     public void setCvText(String cvText) { this.cvText = cvText; }
     public Instant getUpdatedAt() { return updatedAt; }
 }
-

@@ -1,5 +1,7 @@
 package com.int2.common;
 
+import com.int2.candidate.CvTooLargeException;
+import com.int2.candidate.InvalidCvException;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.Instant;
 import org.slf4j.Logger;
@@ -9,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -24,6 +27,22 @@ public class GlobalExceptionHandler {
         return response(HttpStatus.BAD_REQUEST, "Invalid request.", request);
     }
 
+    @ExceptionHandler({CvTooLargeException.class, MaxUploadSizeExceededException.class})
+    ResponseEntity<ApiError> tooLarge(Exception exception, HttpServletRequest request) {
+        return response(HttpStatus.PAYLOAD_TOO_LARGE, "CV files must not exceed 10 MB.", request);
+    }
+
+    @ExceptionHandler(InvalidCvException.class)
+    ResponseEntity<ApiError> invalidCv(InvalidCvException exception, HttpServletRequest request) {
+        return response(HttpStatus.UNPROCESSABLE_ENTITY, exception.getMessage(), request);
+    }
+
+    @ExceptionHandler(ExternalServiceException.class)
+    ResponseEntity<ApiError> providerFailure(ExternalServiceException exception, HttpServletRequest request) {
+        log.error("External provider failure for {}: {}", request.getRequestURI(), exception.getMessage());
+        return response(HttpStatus.BAD_GATEWAY, exception.getMessage(), request);
+    }
+
     @ExceptionHandler(Exception.class)
     ResponseEntity<ApiError> unexpected(Exception exception, HttpServletRequest request) {
         log.error("Unexpected API error for {}", request.getRequestURI(), exception);
@@ -35,4 +54,3 @@ public class GlobalExceptionHandler {
                 Instant.now(), status.value(), status.getReasonPhrase(), message, request.getRequestURI()));
     }
 }
-

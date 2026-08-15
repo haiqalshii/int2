@@ -22,3 +22,11 @@ export interface PagedResponse<T> {
 }
 
 export type HealthResponse = { status: string };
+
+export interface Candidate {
+  id: string;
+  name: string | null;
+  email: string | null;
+  cvUploaded: boolean;
+  updatedAt: string;
+}
