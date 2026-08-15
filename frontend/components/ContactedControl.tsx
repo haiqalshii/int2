@@ -11,11 +11,12 @@ export function ContactedControl({ company, onChange }: { company: Company; onCh
     ? new Intl.DateTimeFormat("en-MY", { dateStyle: "medium", timeStyle: "short", timeZone: "Asia/Kuala_Lumpur" }).format(new Date(company.contactedAt))
     : null;
 
-  async function toggle() {
+  function toggle() {
     setSaving(true); setError(null);
-    try { onChange(await updateContacted(company.id, !company.contacted)); }
-    catch (reason: unknown) { setError(reason instanceof Error ? reason.message : "Unable to update contacted status."); }
-    finally { setSaving(false); }
+    void updateContacted(company.id, !company.contacted)
+      .then(onChange)
+      .catch((reason: unknown) => setError(reason instanceof Error ? reason.message : "Unable to update contacted status."))
+      .finally(() => setSaving(false));
   }
 
   return <div className={`rounded-xl border p-4 ${company.contacted ? "border-emerald-400/20 bg-emerald-400/5" : "border-slate-800 bg-slate-900/50"}`}>
