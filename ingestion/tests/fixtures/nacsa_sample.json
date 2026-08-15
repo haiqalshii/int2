@@ -1,0 +1,24 @@
+[
+  {
+    "letter_application_date": "Wed, 05 Aug 2026 00:00:00 GMT",
+    "letter_approve_date": "Thu, 06 Aug 2026 00:00:00 GMT",
+    "letter_expiry_date": "Fri, 06 Aug 2027 00:00:00 GMT",
+    "letter_status": "approved",
+    "name": " Example Security Sdn Bhd ",
+    "role": "business",
+    "service_name": "Managed Security Operations Centre Monitoring Service Licence"
+  },
+  {
+    "letter_status": "approved",
+    "name": "Example   Security Sdn Bhd",
+    "role": "business",
+    "service_name": "Penetration Testing Service Licence"
+  },
+  {
+    "letter_status": "approved",
+    "name": "Individual Tester",
+    "role": "individual",
+    "service_name": "Penetration Testing Service Licence"
+  }
+]
+

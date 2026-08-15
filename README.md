@@ -36,7 +36,7 @@ INT² is a private, single-user cybersecurity company discovery and cold-outreac
 
 5. Open `http://localhost:3000`; backend health is at `http://localhost:8080/api/health`.
 
-The bootstrap backend does not connect to Supabase yet. Database integration belongs to Phase 2.
+The backend connects to Supabase PostgreSQL and applies Flyway migrations at startup. Set the three `SPRING_DATASOURCE_*` values in `.env` before starting it. To add development-only sample records, run `backend/scripts/dev-seed.sql` against a development Supabase database; never run it in production.
 
 ## Whole-stack Docker run
 
@@ -45,4 +45,3 @@ docker compose up --build
 ```
 
 No secrets should be committed. The example files contain placeholders only.
-

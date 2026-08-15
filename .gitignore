@@ -6,6 +6,8 @@ node_modules/
 .next/
 target/
 *.log
+__pycache__/
+*.py[cod]
 .idea/
 .vscode/
 .DS_Store
@@ -13,4 +15,3 @@ data/raw/
 *.tfstate
 *.tfstate.*
 .terraform/
-
