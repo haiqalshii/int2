@@ -2,6 +2,7 @@ package com.int2.common;
 
 import com.int2.candidate.CvTooLargeException;
 import com.int2.candidate.InvalidCvException;
+import com.int2.email.InvalidEmailContextException;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.Instant;
 import org.slf4j.Logger;
@@ -34,6 +35,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidCvException.class)
     ResponseEntity<ApiError> invalidCv(InvalidCvException exception, HttpServletRequest request) {
+        return response(HttpStatus.UNPROCESSABLE_ENTITY, exception.getMessage(), request);
+    }
+
+    @ExceptionHandler(InvalidEmailContextException.class)
+    ResponseEntity<ApiError> invalidEmailContext(InvalidEmailContextException exception, HttpServletRequest request) {
         return response(HttpStatus.UNPROCESSABLE_ENTITY, exception.getMessage(), request);
     }
 

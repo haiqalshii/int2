@@ -56,3 +56,4 @@ No secrets should be committed. The example files contain placeholders only.
 - `PATCH /api/companies/{id}/contacted` — body: `{ "contacted": true }`
 - `GET /api/candidate` — safe candidate metadata; extracted CV text is never returned
 - `POST /api/candidate/cv` — multipart PDF upload (`file`), maximum 10 MB
+- `POST /api/email/generate` — body: `{ "companyId": "..." }`; generates and stores a grounded draft
