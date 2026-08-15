@@ -81,7 +81,9 @@ function GoogleCompanyMap({ companies }: { companies: CompanyMapRecord[] }) {
 }
 
 export function CompanyMap({ companies }: { companies: CompanyMapRecord[] }) {
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-  if (!apiKey) return <div className="flex min-h-[420px] items-center justify-center rounded-2xl border border-amber-800/60 bg-amber-950/20 p-6 text-center text-sm text-amber-200">Set GOOGLE_MAPS_API_KEY in the root .env, then rebuild the frontend.</div>;
+  const [apiKey, setApiKey] = useState<string | null>();
+  useEffect(() => { void fetch("/api/maps-config").then((response) => response.ok ? response.json() : Promise.reject()).then((data: { apiKey: string }) => setApiKey(data.apiKey)).catch(() => setApiKey(null)); }, []);
+  if (apiKey === undefined) return <div className="min-h-[420px] animate-pulse rounded-2xl bg-slate-900" />;
+  if (!apiKey) return <div className="flex min-h-[420px] items-center justify-center rounded-2xl border border-amber-800/60 bg-amber-950/20 p-6 text-center text-sm text-amber-200">Google Maps is not configured.</div>;
   return <APIProvider apiKey={apiKey}><GoogleCompanyMap companies={companies} /></APIProvider>;
 }
