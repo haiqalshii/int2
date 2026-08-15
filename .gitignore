@@ -1,0 +1,16 @@
+.env
+.env.*
+!.env.example
+!.env.local.example
+node_modules/
+.next/
+target/
+*.log
+.idea/
+.vscode/
+.DS_Store
+data/raw/
+*.tfstate
+*.tfstate.*
+.terraform/
+

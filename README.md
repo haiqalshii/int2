@@ -1,0 +1,48 @@
+# INT² — Intern Intelligence
+
+INT² is a private, single-user cybersecurity company discovery and cold-outreach tool. This repository currently contains the Phase 1 project bootstrap: a Next.js frontend, a Spring Boot backend, Python ingestion placeholders, Docker development configuration, and a Terraform workspace placeholder.
+
+## Repository layout
+
+- `frontend/` — Next.js, TypeScript, Tailwind CSS
+- `backend/` — Java 21 and Spring Boot REST API
+- `ingestion/` — Python NACSA ingestion and enrichment packages
+- `infrastructure/terraform/` — GCP infrastructure (implemented in Phase 14)
+
+## Prerequisites
+
+- Node.js 20+
+- Docker Desktop (recommended for the Java 21 backend)
+- Java 21 and Maven 3.9+ only if running the backend outside Docker
+- Python 3.12+ for later ingestion work
+
+## Local setup
+
+1. Copy `.env.example` to `.env` and replace placeholder values when integrations are implemented.
+2. Copy `frontend/.env.local.example` to `frontend/.env.local`.
+3. Run the frontend:
+
+   ```powershell
+   Set-Location frontend
+   npm install
+   npm run dev
+   ```
+
+4. Run the backend with Docker:
+
+   ```powershell
+   docker compose up --build backend
+   ```
+
+5. Open `http://localhost:3000`; backend health is at `http://localhost:8080/api/health`.
+
+The bootstrap backend does not connect to Supabase yet. Database integration belongs to Phase 2.
+
+## Whole-stack Docker run
+
+```powershell
+docker compose up --build
+```
+
+No secrets should be committed. The example files contain placeholders only.
+
