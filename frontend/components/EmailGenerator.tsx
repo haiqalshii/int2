@@ -6,6 +6,7 @@ import { generateEmail, getCompany } from "@/lib/api";
 import type { Company, GeneratedEmail } from "@/types";
 import { EmailPreview } from "./EmailPreview";
 import { ErrorState } from "./ErrorState";
+import { ContactedControl } from "./ContactedControl";
 
 export function EmailGenerator({ companyId }: { companyId: string }) {
   const [company, setCompany] = useState<Company | null>(null);
@@ -43,7 +44,7 @@ export function EmailGenerator({ companyId }: { companyId: string }) {
 
       {error && <div className="mt-6"><ErrorState title="Unable to generate email" message={error} onRetry={generate} />{error.toLowerCase().includes("cv") && <Link href="/settings" className="mt-3 inline-flex text-sm font-semibold text-cyan-400 hover:text-cyan-300">Upload your CV in settings →</Link>}</div>}
       {generating && <section aria-live="polite" className="mt-6 rounded-2xl border border-cyan-400/15 bg-slate-900/70 p-8 text-center"><div className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-slate-700 border-t-cyan-400" /><p className="mt-4 font-semibold text-slate-200">Writing a personalized draft…</p><p className="mt-1 text-sm text-slate-500">This can take a few moments.</p></section>}
-      {!generating && email && <div className="mt-6"><EmailPreview email={email} onChange={setEmail} /></div>}
+      {!generating && email && <div className="mt-6 space-y-5"><EmailPreview email={email} onChange={setEmail} /><ContactedControl company={company} onChange={setCompany} /></div>}
       {!generating && !email && !error && <section className="mt-6 rounded-2xl border border-dashed border-slate-700 bg-slate-900/40 px-6 py-16 text-center"><div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-400/10 text-xl text-cyan-300">✦</div><h2 className="mt-5 text-lg font-bold text-white">Ready to create your draft</h2><p className="mx-auto mt-2 max-w-md text-sm leading-6 text-slate-400">INTÂ² will use only facts from your CV and the company profile. You can edit and copy the result before sending.</p><button type="button" onClick={generate} className="mt-6 min-h-12 rounded-xl border border-cyan-400/40 px-5 text-sm font-bold text-cyan-300 hover:bg-cyan-400/10">Generate email</button></section>}
     </div>
   </main>;
