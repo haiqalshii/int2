@@ -45,3 +45,10 @@ docker compose up --build
 ```
 
 No secrets should be committed. The example files contain placeholders only.
+
+## Company API
+
+- `GET /api/companies` — paginated list; filters: `search`, `state`, `city`, `service`, `nacsaLicence`, `contacted`
+- `GET /api/companies/{id}` — full company details
+- `GET /api/companies/map` — lightweight map records with the same filters
+- `PATCH /api/companies/{id}/contacted` — body: `{ "contacted": true }`

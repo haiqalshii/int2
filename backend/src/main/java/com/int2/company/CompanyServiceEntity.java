@@ -28,8 +28,8 @@ public class CompanyServiceEntity {
     }
     @PrePersist void onCreate() { createdAt = Instant.now(); }
     public UUID getId() { return id; }
+    public Company getCompany() { return company; }
     public String getService() { return service; }
     public String getSourceUrl() { return sourceUrl; }
     public Instant getCreatedAt() { return createdAt; }
 }
-
