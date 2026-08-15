@@ -8,7 +8,7 @@ final class CompanySpecifications {
     private CompanySpecifications() {}
 
     static Specification<Company> filtered(
-            String search, String state, String city, String service, String nacsaLicence, Boolean contacted) {
+            String search, String state, String city, String service, String nacsaLicence, String ranking, Boolean contacted) {
         Specification<Company> specification = (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();
         if (StringUtils.hasText(search)) {
             String term = "%" + search.trim().toLowerCase() + "%";
@@ -23,6 +23,9 @@ final class CompanySpecifications {
             String term = "%" + nacsaLicence.trim().toLowerCase() + "%";
             specification = specification.and((root, query, cb) -> cb.like(cb.lower(root.get("nacsaLicence")), term));
         }
+        if ("top".equalsIgnoreCase(ranking)) specification = specification.and((root, query, cb) -> cb.and(cb.greaterThanOrEqualTo(root.get("googleRating"), 4.5), cb.greaterThanOrEqualTo(root.get("googleReviewCount"), 20)));
+        if ("high".equalsIgnoreCase(ranking)) specification = specification.and((root, query, cb) -> cb.and(cb.greaterThanOrEqualTo(root.get("googleRating"), 4.0), cb.greaterThanOrEqualTo(root.get("googleReviewCount"), 10)));
+        if ("popular".equalsIgnoreCase(ranking)) specification = specification.and((root, query, cb) -> cb.greaterThanOrEqualTo(root.get("googleReviewCount"), 100));
         if (contacted != null) {
             specification = specification.and((root, query, cb) -> cb.equal(root.get("contacted"), contacted));
         }

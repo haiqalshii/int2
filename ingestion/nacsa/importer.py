@@ -6,19 +6,24 @@ import sys
 import uuid
 
 import psycopg
+from dotenv import load_dotenv
 
 from nacsa.normalizer import normalize
 from nacsa.parser import parse_file
 
 
-def import_snapshot(path: Path, database_url: str) -> tuple[int, int]:
+ROOT = Path(__file__).resolve().parents[2]
+
+
+def import_snapshot(path: Path, database_url: str, username: str | None = None,
+                    password: str | None = None) -> tuple[int, int]:
     records, errors = parse_file(path)
     if errors:
         raise ValueError(f"Snapshot contains {len(errors)} invalid records; first error: {errors[0]}")
     companies = normalize(records)
     inserted = updated = 0
 
-    with psycopg.connect(database_url) as connection:
+    with psycopg.connect(database_url, user=username, password=password) as connection:
         with connection.cursor() as cursor:
             for company in companies:
                 cursor.execute("SELECT id FROM companies WHERE lower(name) = lower(%s) ORDER BY created_at LIMIT 1", (company.name,))
@@ -49,8 +54,10 @@ def import_snapshot(path: Path, database_url: str) -> tuple[int, int]:
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         raise SystemExit("Usage: python -m nacsa.importer data/raw/nacsa/YYYY-MM-DD.json")
-    url = os.environ.get("SUPABASE_DATABASE_URL")
+    load_dotenv(ROOT / ".env")
+    url = os.environ.get("SUPABASE_DATABASE_URL") or os.environ.get("SPRING_DATASOURCE_URL", "").removeprefix("jdbc:")
     if not url:
-        raise SystemExit("SUPABASE_DATABASE_URL is required")
-    print(import_snapshot(Path(sys.argv[1]), url))
-
+        raise SystemExit("SUPABASE_DATABASE_URL or SPRING_DATASOURCE_URL is required")
+    username = None if os.environ.get("SUPABASE_DATABASE_URL") else os.environ.get("SPRING_DATASOURCE_USERNAME")
+    password = None if os.environ.get("SUPABASE_DATABASE_URL") else os.environ.get("SPRING_DATASOURCE_PASSWORD")
+    print(import_snapshot(Path(sys.argv[1]), url, username, password))

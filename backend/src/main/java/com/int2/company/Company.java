@@ -33,6 +33,9 @@ public class Company {
     @Column(name = "nacsa_licence") private String nacsaLicence;
     @Column(name = "nacsa_status", length = 100) private String nacsaStatus;
     @Column(name = "source_url", length = 2048) private String sourceUrl;
+    @Column(name = "google_place_id", length = 255) private String googlePlaceId;
+    @Column(name = "google_rating", precision = 2, scale = 1) private BigDecimal googleRating;
+    @Column(name = "google_review_count") private Integer googleReviewCount;
     @Column(nullable = false) private boolean contacted;
     @Column(name = "contacted_at") private Instant contactedAt;
     @Column(name = "last_verified_at") private Instant lastVerifiedAt;
@@ -90,6 +93,9 @@ public class Company {
     public void setNacsaStatus(String nacsaStatus) { this.nacsaStatus = nacsaStatus; }
     public String getSourceUrl() { return sourceUrl; }
     public void setSourceUrl(String sourceUrl) { this.sourceUrl = sourceUrl; }
+    public String getGooglePlaceId() { return googlePlaceId; }
+    public BigDecimal getGoogleRating() { return googleRating; }
+    public Integer getGoogleReviewCount() { return googleReviewCount; }
     public boolean isContacted() { return contacted; }
     public Instant getContactedAt() { return contactedAt; }
     public Instant getLastVerifiedAt() { return lastVerifiedAt; }
@@ -98,4 +104,3 @@ public class Company {
     public Instant getUpdatedAt() { return updatedAt; }
     public Set<CompanyServiceEntity> getServices() { return services; }
 }
-

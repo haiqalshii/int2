@@ -10,5 +10,6 @@ public record CompanyMapResponse(
         BigDecimal longitude,
         String city,
         String state,
+        BigDecimal googleRating,
+        Integer googleReviewCount,
         boolean contacted) {}
-

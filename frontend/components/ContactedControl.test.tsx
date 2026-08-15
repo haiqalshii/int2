@@ -9,7 +9,7 @@ vi.mock("@/lib/api", () => ({ updateContacted: mocks.updateContacted }));
 
 const company: Company = {
   id: "62f921d6-bb4d-4d23-9c5e-2a98a4cb3021", name: "Aegis Cyber", description: null,
-  website: null, email: null, phone: null, address: null, city: "Kuala Lumpur", state: "Kuala Lumpur",
+  website: null, email: null, phone: null, address: null, city: "Kuala Lumpur", state: "Kuala Lumpur", googleRating: null, googleReviewCount: null,
   latitude: null, longitude: null, nacsaLicence: null, nacsaStatus: null, sourceUrl: null,
   services: [], contacted: false, contactedAt: null, lastVerifiedAt: null,
 };

@@ -3,17 +3,17 @@ export interface Company {
   email: string | null; phone: string | null; address: string | null;
   city: string | null; state: string | null; latitude: number | null; longitude: number | null;
   nacsaLicence: string | null; nacsaStatus: string | null; sourceUrl: string | null;
+  googleRating: number | null; googleReviewCount: number | null;
   services: string[]; contacted: boolean; contactedAt: string | null; lastVerifiedAt: string | null;
 }
 
 export interface CompanyMapRecord {
   id: string; name: string; latitude: number | null; longitude: number | null;
-  city: string | null; state: string | null; contacted: boolean;
+  city: string | null; state: string | null; googleRating: number | null; googleReviewCount: number | null; contacted: boolean;
 }
 
 export interface CompanyFilters {
-  search: string; state: string; city: string; service: string;
-  nacsaLicence: string; contacted: "" | "true" | "false";
+  search: string; state: string; city: string; ranking: string; contacted: "" | "true" | "false";
 }
 
 export interface PagedResponse<T> {

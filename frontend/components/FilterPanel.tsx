@@ -1,7 +1,6 @@
 import type { CompanyFilters } from "@/types";
 
 const STATES = ["Johor", "Kedah", "Kelantan", "Kuala Lumpur", "Labuan", "Melaka", "Negeri Sembilan", "Pahang", "Penang", "Perak", "Perlis", "Putrajaya", "Sabah", "Sarawak", "Selangor", "Terengganu"];
-const SERVICES = ["SOC", "Penetration Testing", "Incident Response", "Digital Forensics", "GRC", "Security Consulting", "Cloud Security", "Network Security", "IAM", "Threat Intelligence", "Managed Security", "Vulnerability Assessment"];
 const inputClass = "h-10 w-full rounded-lg border border-slate-700 bg-slate-900 px-3 text-sm text-slate-200 outline-none focus:border-cyan-400";
 
 export function FilterPanel({ filters, onChange, onClear }: { filters: CompanyFilters; onChange: (field: keyof CompanyFilters, value: string) => void; onClear: () => void }) {
@@ -11,10 +10,8 @@ export function FilterPanel({ filters, onChange, onClear }: { filters: CompanyFi
     <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
       <select aria-label="State" value={filters.state} onChange={(e) => onChange("state", e.target.value)} className={inputClass}><option value="">All states</option>{STATES.map((state) => <option key={state}>{state}</option>)}</select>
       <input aria-label="City" value={filters.city} onChange={(e) => onChange("city", e.target.value)} placeholder="Any city" className={inputClass} />
-      <select aria-label="Service" value={filters.service} onChange={(e) => onChange("service", e.target.value)} className={inputClass}><option value="">All services</option>{SERVICES.map((service) => <option key={service}>{service}</option>)}</select>
-      <input aria-label="NACSA licence" value={filters.nacsaLicence} onChange={(e) => onChange("nacsaLicence", e.target.value)} placeholder="Any NACSA licence" className={inputClass} />
+      <select aria-label="Google reputation" value={filters.ranking} onChange={(e) => onChange("ranking", e.target.value)} className={inputClass}><option value="">Any Google reputation</option><option value="top">Top rated (4.5+, 20+ reviews)</option><option value="high">Highly rated (4.0+, 10+ reviews)</option><option value="popular">Well known (100+ reviews)</option></select>
       <select aria-label="Contacted status" value={filters.contacted} onChange={(e) => onChange("contacted", e.target.value)} className={inputClass}><option value="">Any contact status</option><option value="false">Not contacted</option><option value="true">Contacted</option></select>
     </div>
   </section>;
 }
-

@@ -65,7 +65,7 @@ public class CompanyService {
 
     private Specification<Company> specification(CompanyFilter filter) {
         return CompanySpecifications.filtered(filter.search(), filter.state(), filter.city(), filter.service(),
-                filter.nacsaLicence(), filter.contacted());
+                filter.nacsaLicence(), filter.ranking(), filter.contacted());
     }
 
     private Map<UUID, List<String>> servicesByCompany(List<Company> companies) {
@@ -79,6 +79,5 @@ public class CompanyService {
     }
 
     public record CompanyFilter(
-            String search, String state, String city, String service, String nacsaLicence, Boolean contacted) {}
+            String search, String state, String city, String service, String nacsaLicence, String ranking, Boolean contacted) {}
 }
-

@@ -20,8 +20,9 @@ public record CompanyResponse(
         String nacsaLicence,
         String nacsaStatus,
         String sourceUrl,
+        BigDecimal googleRating,
+        Integer googleReviewCount,
         List<String> services,
         boolean contacted,
         Instant contactedAt,
         Instant lastVerifiedAt) {}
-

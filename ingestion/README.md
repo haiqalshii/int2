@@ -26,3 +26,17 @@ python -m enrichment.runner --limit 10
 The crawler checks public destinations and `robots.txt`, stays on the known company host, visits at most nine priority pages with a delay, and limits HTML responses to 2 MB. Extracted values fill missing fields only; existing verified values are preserved. One website failure does not stop the batch.
 
 Run tests with `python -m unittest discover -s tests`.
+
+## Geocoding
+
+Add `GEOAPIFY_API_KEY` to the repository root `.env`, then geocode records without coordinates:
+
+```powershell
+Set-Location ingestion
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+python -m geocoding.runner --limit 10
+python -m geocoding.runner
+```
+
+The runner reads database credentials from the root `.env`, restricts results to Malaysia, and only saves confident matches. Existing coordinates are never overwritten. Review the first limited batch before processing all records.

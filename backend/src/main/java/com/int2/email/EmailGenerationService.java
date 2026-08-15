@@ -21,17 +21,19 @@ public class EmailGenerationService {
     private final GeneratedEmailRepository generatedEmailRepository;
     private final PromptBuilder promptBuilder;
     private final LlmClient llmClient;
+    private final LocalEmailGenerator localEmailGenerator;
     private final ObjectMapper objectMapper;
 
     public EmailGenerationService(CompanyRepository companyRepository, CandidateRepository candidateRepository,
             GeneratedEmailRepository generatedEmailRepository, PromptBuilder promptBuilder, LlmClient llmClient,
-            ObjectMapper objectMapper) {
+            ObjectMapper objectMapper, LocalEmailGenerator localEmailGenerator) {
         this.companyRepository = companyRepository;
         this.candidateRepository = candidateRepository;
         this.generatedEmailRepository = generatedEmailRepository;
         this.promptBuilder = promptBuilder;
         this.llmClient = llmClient;
         this.objectMapper = objectMapper;
+        this.localEmailGenerator = localEmailGenerator;
     }
 
     public EmailResponse generate(UUID companyId) {
@@ -46,21 +48,28 @@ public class EmailGenerationService {
         String systemPrompt = promptBuilder.systemPrompt();
         String userPrompt = promptBuilder.userPrompt(candidate, company);
         EmailResponse response;
+        String usedModel = llmClient.model();
         try {
-            response = parseAndValidate(llmClient.generate(systemPrompt, userPrompt));
-        } catch (MalformedLlmResponseException firstFailure) {
-            log.warn("Malformed LLM response for company {}; retrying once", companyId);
-            try {
-                response = parseAndValidate(llmClient.generate(systemPrompt, userPrompt));
-            } catch (MalformedLlmResponseException secondFailure) {
-                throw new ExternalServiceException("The LLM provider returned an invalid email response.", secondFailure);
-            }
+            response = generateWithLlm(systemPrompt, userPrompt, companyId);
+        } catch (ExternalServiceException | MalformedLlmResponseException providerFailure) {
+            log.warn("LLM generation failed for company {}; using local template fallback: {}", companyId, providerFailure.getMessage());
+            response = localEmailGenerator.generate(candidate, company);
+            usedModel = "local-template-v1";
         }
         GeneratedEmail generated = new GeneratedEmail(company, response.subject(), response.body());
-        generated.setModel(llmClient.model());
+        generated.setModel(usedModel);
         generated.setPromptVersion(PromptBuilder.PROMPT_VERSION);
         generatedEmailRepository.save(generated);
         return response;
+    }
+
+    private EmailResponse generateWithLlm(String systemPrompt, String userPrompt, UUID companyId) {
+        try {
+            return parseAndValidate(llmClient.generate(systemPrompt, userPrompt));
+        } catch (MalformedLlmResponseException firstFailure) {
+            log.warn("Malformed LLM response for company {}; retrying once", companyId);
+            return parseAndValidate(llmClient.generate(systemPrompt, userPrompt));
+        }
     }
 
     private EmailResponse parseAndValidate(String raw) {
@@ -81,4 +90,3 @@ public class EmailGenerationService {
         MalformedLlmResponseException(String message, Throwable cause) { super(message, cause); }
     }
 }
-

@@ -12,6 +12,7 @@ import com.int2.candidate.CandidateProfile;
 import com.int2.candidate.CandidateRepository;
 import com.int2.company.Company;
 import com.int2.company.CompanyRepository;
+import com.int2.common.ExternalServiceException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,6 +77,18 @@ class EmailControllerTest {
                 .andExpect(jsonPath("$.message").value("No CV has been uploaded yet."));
     }
 
+    @Test
+    void fallsBackToLocalTemplateWhenProviderIsUnavailable() throws Exception {
+        saveCandidate();
+        when(llmClient.generate(anyString(), anyString())).thenThrow(new ExternalServiceException("provider unavailable"));
+
+        mockMvc.perform(post("/api/email/generate").contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"companyId\":\"" + company.getId() + "\"}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.subject").value(org.hamcrest.Matchers.containsString("ABC Security")))
+                .andExpect(jsonPath("$.body").value(org.hamcrest.Matchers.containsString("Java")));
+    }
+
     private void saveCandidate() {
         CandidateProfile candidate = new CandidateProfile("Hanim", "hanim@example.com");
         candidate.setCvText("Cybersecurity student with Java experience.");
@@ -83,4 +96,3 @@ class EmailControllerTest {
         candidateRepository.saveAndFlush(candidate);
     }
 }
-

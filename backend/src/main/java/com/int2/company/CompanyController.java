@@ -30,10 +30,11 @@ public class CompanyController {
             @RequestParam(required = false) String city,
             @RequestParam(required = false) String service,
             @RequestParam(required = false) String nacsaLicence,
+            @RequestParam(required = false) String ranking,
             @RequestParam(required = false) Boolean contacted,
             @RequestParam(defaultValue = "0") @Min(0) int page,
             @RequestParam(defaultValue = "20") @Min(1) @Max(100) int size) {
-        return companyService.findCompanies(filter(search, state, city, service, nacsaLicence, contacted), page, size);
+        return companyService.findCompanies(filter(search, state, city, service, nacsaLicence, ranking, contacted), page, size);
     }
 
     @GetMapping("/map")
@@ -43,8 +44,9 @@ public class CompanyController {
             @RequestParam(required = false) String city,
             @RequestParam(required = false) String service,
             @RequestParam(required = false) String nacsaLicence,
+            @RequestParam(required = false) String ranking,
             @RequestParam(required = false) Boolean contacted) {
-        return companyService.findMapCompanies(filter(search, state, city, service, nacsaLicence, contacted));
+        return companyService.findMapCompanies(filter(search, state, city, service, nacsaLicence, ranking, contacted));
     }
 
     @GetMapping("/{id}")
@@ -56,8 +58,7 @@ public class CompanyController {
     }
 
     private CompanyService.CompanyFilter filter(
-            String search, String state, String city, String service, String nacsaLicence, Boolean contacted) {
-        return new CompanyService.CompanyFilter(search, state, city, service, nacsaLicence, contacted);
+            String search, String state, String city, String service, String nacsaLicence, String ranking, Boolean contacted) {
+        return new CompanyService.CompanyFilter(search, state, city, service, nacsaLicence, ranking, contacted);
     }
 }
-
