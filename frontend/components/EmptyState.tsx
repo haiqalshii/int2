@@ -1,0 +1,2 @@
+export function EmptyState({ onClear }: { onClear: () => void }) { return <div className="rounded-2xl border border-dashed border-slate-700 p-8 text-center"><p className="font-medium text-slate-200">No companies match these filters.</p><button type="button" onClick={onClear} className="mt-3 text-sm font-semibold text-cyan-400">Clear filters</button></div>; }
+
