@@ -5,6 +5,7 @@ import com.int2.common.ExternalServiceException;
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
@@ -13,6 +14,7 @@ import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;
 
 @Component
+@ConditionalOnProperty(name = "app.llm.provider", havingValue = "openai")
 public class OpenAiLlmClient implements LlmClient {
     private final String apiKey;
     private final String model;
@@ -78,4 +80,3 @@ public class OpenAiLlmClient implements LlmClient {
 
     @Override public String model() { return model; }
 }
-

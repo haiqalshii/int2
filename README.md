@@ -38,6 +38,8 @@ INT² is a private, single-user cybersecurity company discovery and cold-outreac
 
 The backend connects to Supabase PostgreSQL and applies Flyway migrations at startup. Set the three `SPRING_DATASOURCE_*` values in `.env` before starting it. To add development-only sample records, run `backend/scripts/dev-seed.sql` against a development Supabase database; never run it in production.
 
+Email generation uses Gemini by default. Set `LLM_PROVIDER=gemini`, `GEMINI_API_KEY`, and optionally `GEMINI_MODEL` (default `gemini-2.5-flash`). The previous OpenAI integration remains available with `LLM_PROVIDER=openai` and `LLM_API_KEY`. Provider keys stay in the backend environment and must never use a `NEXT_PUBLIC_*` name.
+
 Create a private Supabase Storage bucket named `candidate-files` (or set `SUPABASE_CANDIDATE_BUCKET`). CV uploads are stored at `candidate/cv.pdf`; the service key is used only by the backend and must never be exposed through a `NEXT_PUBLIC_*` variable.
 
 ## Whole-stack Docker run
