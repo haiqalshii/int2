@@ -8,7 +8,7 @@ python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 python -m nacsa.collector
-$env:SUPABASE_DATABASE_URL = "postgresql://..."
+$env:DATABASE_URL = "postgresql://..."
 python -m nacsa.importer ../data/raw/nacsa/YYYY-MM-DD.json
 ```
 
@@ -19,7 +19,7 @@ Raw snapshots are immutable and gitignored. The importer includes business licen
 After official website URLs have been added to company records:
 
 ```powershell
-$env:SUPABASE_DATABASE_URL = "postgresql://..."
+$env:DATABASE_URL = "postgresql://..."
 python -m enrichment.runner --limit 10
 ```
 

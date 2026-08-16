@@ -14,12 +14,12 @@ ROOT = Path(__file__).resolve().parents[2]
 
 
 def database_connection() -> psycopg.Connection:
-    database_url = os.environ.get("SUPABASE_DATABASE_URL")
+    database_url = os.environ.get("DATABASE_URL")
     if database_url:
         return psycopg.connect(database_url)
     jdbc_url = os.environ.get("SPRING_DATASOURCE_URL", "").removeprefix("jdbc:")
     if not jdbc_url:
-        raise RuntimeError("Set SUPABASE_DATABASE_URL or the SPRING_DATASOURCE_* variables.")
+        raise RuntimeError("Set DATABASE_URL or the SPRING_DATASOURCE_* variables.")
     return psycopg.connect(jdbc_url, user=os.environ.get("SPRING_DATASOURCE_USERNAME"),
                            password=os.environ.get("SPRING_DATASOURCE_PASSWORD"))
 

@@ -55,9 +55,9 @@ if __name__ == "__main__":
     if len(sys.argv) != 2:
         raise SystemExit("Usage: python -m nacsa.importer data/raw/nacsa/YYYY-MM-DD.json")
     load_dotenv(ROOT / ".env")
-    url = os.environ.get("SUPABASE_DATABASE_URL") or os.environ.get("SPRING_DATASOURCE_URL", "").removeprefix("jdbc:")
+    url = os.environ.get("DATABASE_URL") or os.environ.get("SPRING_DATASOURCE_URL", "").removeprefix("jdbc:")
     if not url:
-        raise SystemExit("SUPABASE_DATABASE_URL or SPRING_DATASOURCE_URL is required")
-    username = None if os.environ.get("SUPABASE_DATABASE_URL") else os.environ.get("SPRING_DATASOURCE_USERNAME")
-    password = None if os.environ.get("SUPABASE_DATABASE_URL") else os.environ.get("SPRING_DATASOURCE_PASSWORD")
+        raise SystemExit("DATABASE_URL or SPRING_DATASOURCE_URL is required")
+    username = None if os.environ.get("DATABASE_URL") else os.environ.get("SPRING_DATASOURCE_USERNAME")
+    password = None if os.environ.get("DATABASE_URL") else os.environ.get("SPRING_DATASOURCE_PASSWORD")
     print(import_snapshot(Path(sys.argv[1]), url, username, password))

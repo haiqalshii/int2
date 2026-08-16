@@ -11,7 +11,7 @@ $imports = [ordered]@{
 @('artifactregistry.googleapis.com', 'cloudbuild.googleapis.com', 'iam.googleapis.com', 'run.googleapis.com', 'secretmanager.googleapis.com', 'serviceusage.googleapis.com') | ForEach-Object {
   $imports["google_project_service.required[`"$_`"]"] = "$project/$_"
 }
-@('int2-api-key', 'int2-app-password', 'int2-db-password', 'int2-db-url', 'int2-db-user', 'int2-gemini-key', 'int2-google-maps-key', 'int2-session-token', 'int2-supabase-service-key', 'int2-supabase-url') | ForEach-Object {
+@('int2-api-key', 'int2-app-password', 'int2-db-password', 'int2-db-user', 'int2-gemini-key', 'int2-google-maps-key', 'int2-session-token') | ForEach-Object {
   $imports["google_secret_manager_secret.app[`"$_`"]"] = "projects/$project/secrets/$_"
 }
 

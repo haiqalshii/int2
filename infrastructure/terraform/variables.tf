@@ -18,6 +18,23 @@ variable "artifact_repository" {
   type    = string
   default = "cloud-run-source-deploy"
 }
+variable "database_instance_name" {
+  type    = string
+  default = "int2-postgres"
+}
+variable "database_name" {
+  type    = string
+  default = "int2"
+}
+variable "database_tier" {
+  type    = string
+  default = "db-f1-micro"
+}
+variable "candidate_bucket_name" {
+  type     = string
+  default  = null
+  nullable = true
+}
 variable "backend_image_tag" {
   type    = string
   default = "latest"

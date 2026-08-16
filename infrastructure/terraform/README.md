@@ -1,8 +1,6 @@
 # INT2 Google Cloud infrastructure
 
-This directory defines the production infrastructure for INT2: required APIs, Artifact Registry, a dedicated Cloud Run identity, Secret Manager metadata/IAM, both Cloud Run services, and optional GitHub deployment triggers.
-
-Supabase remains externally managed. Terraform references its connection details in Secret Manager but does not create the Supabase project or bucket.
+This directory defines the production infrastructure for INT2: Cloud SQL for PostgreSQL, a private Cloud Storage bucket, required APIs, Artifact Registry, a dedicated Cloud Run identity, Secret Manager metadata/IAM, both Cloud Run services, and optional GitHub deployment triggers.
 
 ## Adopt the existing deployment
 
@@ -17,6 +15,14 @@ terraform plan
 ```
 
 Review the plan. The intended migration replaces the default Compute Engine runtime identity with the dedicated `int2-cloud-run` service account.
+
+For a new Cloud SQL instance, set the built-in `postgres` user's password to the value stored in `int2-db-password`, and set `int2-db-user` to `postgres`:
+
+```powershell
+gcloud sql users set-password postgres --instance int2-postgres --prompt-for-password --project project-int2
+```
+
+The backend's JDBC URL is generated from the Cloud SQL connection name. Cloud Run connects with the dedicated runtime identity; no database host or Supabase secrets are required.
 
 ## Secret values
 

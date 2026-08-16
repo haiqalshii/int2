@@ -50,8 +50,7 @@ if __name__ == "__main__":
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument("--delay", type=float, default=1.0)
     args = parser.parse_args()
-    database_url = os.environ.get("SUPABASE_DATABASE_URL")
+    database_url = os.environ.get("DATABASE_URL")
     if not database_url:
-        raise SystemExit("SUPABASE_DATABASE_URL is required")
+        raise SystemExit("DATABASE_URL is required")
     print(enrich_companies(database_url, args.limit, args.delay))
-

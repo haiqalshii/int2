@@ -26,10 +26,8 @@ spring:
 app:
   api-key: ${APP_API_KEY:}
   frontend-origin: ${FRONTEND_ORIGIN:http://localhost:3000}
-  supabase:
-    url: ${SUPABASE_URL:}
-    service-key: ${SUPABASE_SERVICE_KEY:}
-    candidate-bucket: ${SUPABASE_CANDIDATE_BUCKET:candidate-files}
+  gcp:
+    candidate-bucket: ${GCP_CANDIDATE_BUCKET:}
   llm:
     provider: ${LLM_PROVIDER:gemini}
     timeout-seconds: ${LLM_TIMEOUT_SECONDS:45}

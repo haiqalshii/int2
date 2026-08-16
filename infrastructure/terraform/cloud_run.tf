@@ -26,11 +26,12 @@ resource "google_cloud_run_v2_service" "backend" {
       }
       dynamic "env" {
         for_each = {
-          LLM_PROVIDER              = "gemini"
-          GEMINI_MODEL              = "gemini-2.5-flash"
-          LLM_TIMEOUT_SECONDS       = "45"
-          SUPABASE_CANDIDATE_BUCKET = "candidate-files"
-          FRONTEND_ORIGIN           = local.frontend_url
+          LLM_PROVIDER          = "gemini"
+          GEMINI_MODEL          = "gemini-2.5-flash"
+          LLM_TIMEOUT_SECONDS   = "45"
+          GCP_CANDIDATE_BUCKET  = google_storage_bucket.candidate_files.name
+          SPRING_DATASOURCE_URL = local.database_url
+          FRONTEND_ORIGIN       = local.frontend_url
         }
         content {
           name  = env.key
@@ -39,11 +40,8 @@ resource "google_cloud_run_v2_service" "backend" {
       }
       dynamic "env" {
         for_each = {
-          SPRING_DATASOURCE_URL      = "int2-db-url"
           SPRING_DATASOURCE_USERNAME = "int2-db-user"
           SPRING_DATASOURCE_PASSWORD = "int2-db-password"
-          SUPABASE_URL               = "int2-supabase-url"
-          SUPABASE_SERVICE_KEY       = "int2-supabase-service-key"
           GEMINI_API_KEY             = "int2-gemini-key"
           APP_API_KEY                = "int2-api-key"
         }
@@ -60,7 +58,7 @@ resource "google_cloud_run_v2_service" "backend" {
     }
   }
   lifecycle { ignore_changes = [template[0].containers[0].image] }
-  depends_on = [google_secret_manager_secret_iam_member.runtime_access]
+  depends_on = [google_secret_manager_secret_iam_member.runtime_access, google_project_iam_member.runtime_cloud_sql, google_storage_bucket_iam_member.runtime_candidate_files]
 }
 
 resource "google_cloud_run_v2_service" "frontend" {
