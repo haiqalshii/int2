@@ -35,6 +35,12 @@ variable "candidate_bucket_name" {
   default  = null
   nullable = true
 }
+variable "monitoring_alert_email" {
+  description = "Email address for monitoring alerts. Leave null to create alerts without notifications."
+  type        = string
+  default     = null
+  nullable    = true
+}
 variable "backend_image_tag" {
   type    = string
   default = "latest"

@@ -5,6 +5,7 @@ resource "google_sql_database_instance" "postgres" {
   deletion_protection = true
 
   settings {
+    edition           = "ENTERPRISE"
     tier              = var.database_tier
     availability_type = "ZONAL"
     disk_type         = "PD_SSD"

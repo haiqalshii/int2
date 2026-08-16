@@ -6,3 +6,4 @@ output "secret_ids" { value = sort(tolist(local.secret_ids)) }
 output "database_connection_name" { value = google_sql_database_instance.postgres.connection_name }
 output "database_name" { value = google_sql_database.app.name }
 output "candidate_bucket" { value = google_storage_bucket.candidate_files.name }
+output "monitoring_uptime_check" { value = google_monitoring_uptime_check_config.backend.name }

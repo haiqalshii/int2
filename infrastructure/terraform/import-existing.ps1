@@ -15,8 +15,18 @@ $imports = [ordered]@{
   $imports["google_secret_manager_secret.app[`"$_`"]"] = "projects/$project/secrets/$_"
 }
 
+$existing = @(terraform state list)
+if ($LASTEXITCODE -ne 0) { throw 'Unable to read Terraform state' }
+
 foreach ($entry in $imports.GetEnumerator()) {
-  terraform import $entry.Key $entry.Value
+  if ($existing -contains $entry.Key) {
+    Write-Host "Already imported: $($entry.Key)"
+    continue
+  }
+
+  # Windows PowerShell removes embedded quotes unless they are escaped for the native process.
+  $address = $entry.Key.Replace('"', '\"')
+  terraform import $address $entry.Value
   if ($LASTEXITCODE -ne 0) { throw "Import failed: $($entry.Key)" }
 }
 Write-Host "Imported existing INT2 resources. Run 'terraform plan' next."

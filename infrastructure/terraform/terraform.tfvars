@@ -1,0 +1,10 @@
+project_id = "project-int2"
+region     = "asia-southeast1"
+
+# Override only when the default globally unique bucket name is unavailable.
+# candidate_bucket_name = "project-int2-int2-candidate-files"
+
+# Enable after connecting GitHub under Cloud Build > Repositories.
+enable_github_triggers = false
+github_owner           = "haiqalshii"
+github_repository      = "int2"

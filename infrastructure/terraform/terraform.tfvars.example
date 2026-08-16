@@ -4,6 +4,9 @@ region     = "asia-southeast1"
 # Override only when the default globally unique bucket name is unavailable.
 # candidate_bucket_name = "project-int2-int2-candidate-files"
 
+# Set this to receive uptime, application error, and database alerts.
+monitoring_alert_email = "you@example.com"
+
 # Enable after connecting GitHub under Cloud Build > Repositories.
 enable_github_triggers = false
 github_owner           = "haiqalshii"
