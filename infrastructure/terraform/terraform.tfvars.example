@@ -1,0 +1,7 @@
+project_id = "project-int2"
+region     = "asia-southeast1"
+
+# Enable after connecting GitHub under Cloud Build > Repositories.
+enable_github_triggers = false
+github_owner           = "haiqalshii"
+github_repository      = "int2"
